@@ -1,12 +1,53 @@
-﻿
+﻿@model List<Photo>
 @{
     ViewData["Title"] = "Lista foto";
     Layout = "_CustomLayout";
 }
 
 <section class="photos-list text-center">
-    <h1>Lista foto</h1>
+
+    <!-- intestazione pagina -->
+    <h1>Benvenuto nel tuo album</h1>
+    <h3>Lista foto</h3>
+
+
+    
     <div class="container">
+        <div class="row justify-content-center align-items-center">
+            
+            @if (Model == null || !Model.Any())
+            {
+                <p>Non si sono foto in questo album</p>
+            }
+            else
+            {
+                <!-- Card immagini -->
+                @foreach (Photo itemPhoto in Model)
+                {
+                    <div class="col-4 p-2">
+                        <div class="card" style="width: 18rem;">
+                            <img src="..." class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <strong>
+                                        Titolo:
+                                    </strong>
+                                    @itemPhoto.Title
+                                </h5>
+                                <p class="card-text">
+                                    <strong>
+                                        Descrizione:
+                                    </strong>
+                                    @itemPhoto.Description
+                                </p>
+                                <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                            </div>
+                        </div>
+                    </div>  
+                }
+            }
+
+        </div>
     </div>
 </section>
 
