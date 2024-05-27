@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using net_il_mio_fotoalbum.Models;
+using System.Security.Claims;
 
 namespace net_il_mio_fotoalbum.Data
 {
@@ -87,6 +88,30 @@ namespace net_il_mio_fotoalbum.Data
             return true;
         }
 
+        //Elimina foto
+        public static bool DeletePhoto(int id)
+        {
+            try
+            {
+                var idPhotoDelete = GetPhotoById(id, false);
+                if (idPhotoDelete == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    using PhotoContext db = new PhotoContext();
+                    db.Remove(idPhotoDelete);
+                    db.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
 
         //CATEGORIE
         //prendere tutte le catergorie
@@ -98,7 +123,7 @@ namespace net_il_mio_fotoalbum.Data
         }
 
 
-        //Seeder
+        //Seed
         public static void Seed()
         {
             using PhotoContext db = new PhotoContext();
@@ -114,5 +139,7 @@ namespace net_il_mio_fotoalbum.Data
             db.SaveChanges();
         }
 
+
+        //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
     }
 }

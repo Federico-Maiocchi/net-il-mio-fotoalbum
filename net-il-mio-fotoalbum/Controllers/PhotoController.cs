@@ -105,5 +105,24 @@ namespace net_il_mio_fotoalbum.Controllers
             }
         }
 
+        //Delete
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+
+        public IActionResult Delete(int id)
+        {
+            var photoToDelete = PhotoManager.DeletePhoto(id);
+
+            if (photoToDelete != null)
+            {
+                return RedirectToAction("IndexPhoto");
+
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
     }
 }

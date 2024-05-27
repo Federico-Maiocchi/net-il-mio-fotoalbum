@@ -10,6 +10,10 @@
     <h1>Benvenuto nel tuo album</h1>
     <h3>Lista foto</h3>
 
+    <a class="nav-link text-dark" href="@Url.Action("Create", "Photo")">
+        <button class="btn btn-primary">Aggiungi foto</button>
+    </a>
+
 
     
     <div class="container">
@@ -54,7 +58,15 @@
                             </div>
                             <div class="row">
                                 <div class="col">
+
                                     <a href="@Url.Action("Update", new {id = itemPhoto.Id} )" class="btn btn-primary">Modifica</a>
+
+                                    <form aps-controller="Pizza" asp-action="Delete" asp-route-id="@itemPhoto.Id" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-danger btn-sm">
+                                            Cancella
+                                        </button>
+                                    </form>
 
                                 </div>
                             </div>
