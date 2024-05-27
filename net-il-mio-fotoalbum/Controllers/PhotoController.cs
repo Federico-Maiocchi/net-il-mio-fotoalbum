@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using net_il_mio_fotoalbum.Data;
+using net_il_mio_fotoalbum.Models;
 
 namespace net_il_mio_fotoalbum.Controllers
 {
@@ -15,7 +16,7 @@ namespace net_il_mio_fotoalbum.Controllers
         //Show
         public IActionResult Show(int id)
         {
-            var photo = PhotoManager.GetPhotoById(id);
+            var photo = PhotoManager.GetPhotoById(id, true);
             if (photo != null)
             {
                 return View(photo);
@@ -24,6 +25,77 @@ namespace net_il_mio_fotoalbum.Controllers
             {
                 return NotFound();
             }
+        }
+
+        //Create
+        //get
+        [HttpGet]
+        public IActionResult Create() 
+        {
+            PhotoFormModel model = new PhotoFormModel();
+            model.Photo = new Photo();
+            model.CreateCategories(PhotoManager.GetAllCategories());
+
+            return View(model);
+        }
+
+
+
+        //Create
+        //post
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+
+        public IActionResult Create(PhotoFormModel data)
+        {
+            if (!ModelState.IsValid)
+            {
+                
+                data.CreateCategories(PhotoManager.GetAllCategories());
+
+                return View("Create", data);
+            }
+
+            PhotoManager.AddNewPhoto(data.Photo, data.SelectedCategories);
+            return RedirectToAction("IndexPhoto");
+        }
+
+        //Update
+        //get
+        [HttpGet]
+        public IActionResult Update(int id)
+        {
+            Photo photoToEdit = PhotoManager.GetPhotoById(id);
+
+            if (photoToEdit == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                PhotoFormModel model = new PhotoFormModel();
+                model.Photo = photoToEdit;
+                model.CreateCategories(PhotoManager.GetAllCategories());
+
+                return View(model);
+            }
+
+        }
+
+        //Update
+        //post
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Update(int id, PhotoFormModel data)
+        {
+            if (!ModelState.IsValid)
+            {
+                data.CreateCategories(PhotoManager.GetAllCategories());
+
+                return View("Update", data);
+            }
+
+            if (PhotoManager)
         }
 
     }

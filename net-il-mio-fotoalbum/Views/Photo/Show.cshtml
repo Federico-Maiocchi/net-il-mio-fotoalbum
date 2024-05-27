@@ -38,6 +38,27 @@
                 </strong>
                 @Model.Description
             </p>
+
+            <!--Categorie foto-->
+            <div class="row">
+                <div class="col">
+                    <div class="d-flex flex-wrap gap-2">
+                        @foreach (var itemCategory in Model.Categories)
+                        {
+                            @itemCategory.Name
+                        }
+
+
+                       @*  @foreach (var category in Model.Categories)
+                        {
+                            <div class="">
+                                @category.Name
+                            </div>
+                        } *@
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 

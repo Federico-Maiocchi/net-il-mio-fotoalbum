@@ -10,7 +10,7 @@ namespace net_il_mio_fotoalbum.Models
 
         //Categorie
         //elenco categorie selezionabili
-        public List<SelectListItem>? Catergories { get; set; }
+        public List<SelectListItem>? Categories { get; set; }
 
         //elenco degli ID che appartiene alle categorie
         public List<string>? SelectedCategories { get; set; }
@@ -18,17 +18,24 @@ namespace net_il_mio_fotoalbum.Models
         //Costruttore
         public PhotoFormModel() { }
 
-        public void CreateCategories()
+        public PhotoFormModel(Photo photo, List<SelectListItem>? categories, List<string>? selectedCategories)
         {
-            this.Catergories = new List<SelectListItem>();
+            Photo = photo;
+            Categories = categories;
+            SelectedCategories = selectedCategories;
+        }
+
+        public void CreateCategories(List<Category> InputCategories)
+        {
+            this.Categories = new List<SelectListItem>();
             this.SelectedCategories = new List<string>();
 
-            var categoriesFromDb = PhotoManager.GetAllCategories();
-            foreach (var category in categoriesFromDb)
+            
+            foreach (var category in InputCategories)
             {
                 bool isSelected = this.Photo.Categories?.Any(c => c.Id == category.Id) == true;
 
-                this.Catergories.Add(new SelectListItem()
+                this.Categories.Add(new SelectListItem()
                 {
                     Text = category.Name,
                     Value = category.Id.ToString(),
