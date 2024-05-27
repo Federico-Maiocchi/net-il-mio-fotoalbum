@@ -1,0 +1,38 @@
+﻿
+@model Category
+
+@{
+    ViewData["Title"] = "Aggiungi categorie";
+    Layout = "_CustomLayout";
+}
+
+<section class="create-photo">
+    <div class="container">
+
+        <a href="@Url.Action("IndexCategory", "Category", Model )" class="btn btn-primary">Torna all'album</a>
+
+        <div class="row">
+            <div class="col-6">
+                <h2 class="py-4">Aggiungi nuova categoria</h2>
+
+                <!--Creazione categoria-->
+
+                <form asp-controller="Category" asp-action="CreateCategory" method="post">
+                    @Html.AntiForgeryToken()
+
+                    <!--nome-->
+                    <div class="form-group col-6">
+                        <label for="name">Titolo</label>
+                        <input asp-for="Name" type="text" class="form-control" id="name" placeholder="Inserisci nome della foto">
+
+                    </div>
+
+                   
+
+
+                    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

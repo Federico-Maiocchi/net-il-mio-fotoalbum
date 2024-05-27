@@ -1,0 +1,54 @@
+﻿@model List<Category>
+
+@{
+    ViewData["Title"] = "Lista categorie";
+    Layout = "_CustomLayout";
+}
+
+<section class="categories-list">
+
+    <div class="container">
+        <h2>Lista categorie</h2>
+        <div>
+
+            <a class="nav-link text-dark" href="@Url.Action("CreateCategory", "Category")">
+                <button class="btn btn-primary">Aggiungi categoria</button>
+            </a>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Modifica</th>
+                        <th scope="col">Cancella</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var itemCategory in Model)
+                    {
+                        <tr>
+                            <th scope="row">@itemCategory.Id</th>
+                            <td>@itemCategory.Name</td>
+                            <td>
+                                <div class="col">
+                                    <a href="@Url.Action("UpdateCategory", new {id = itemCategory.Id} )" class="btn btn-primary">Modifica</a>
+                                </div>
+                            </td>
+                            <td>
+                                <form aps-controller="Category" asp-action="DeleteCategory" asp-route-id="@itemCategory.Id" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-danger ">
+                                        Cancella
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+   
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</section>

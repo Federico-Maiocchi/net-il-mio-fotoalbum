@@ -1,0 +1,32 @@
+﻿@model Category
+
+@{
+    ViewData["Title"] = "Modifica categoria";
+    Layout = "_CustomLayout";
+}
+
+<section class="update-category">
+    <div class="container">
+        <a href="@Url.Action("IndexCategory", "Category")" class="btn btn-primary">Torna all'album</a>
+
+        <div class="row">
+            <div class="col-6">
+                <h2 class="py-4">Modifica categoria</h2>
+
+                <!-- Modifica categoria -->
+                <form asp-controller="Category" asp-action="UpdateCategory" method="post">
+                    @Html.AntiForgeryToken()
+                    
+
+                    <!-- Nome -->
+                    <div class="form-group col-6">
+                        <label for="name">Nome</label>
+                        <input asp-for="Name" type="text" class="form-control" id="name" placeholder="Modifica nome della categoria">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

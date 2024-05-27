@@ -57,17 +57,18 @@
                                 <a href="@Url.Action("Show", new {id = itemPhoto.Id})" class="btn btn-primary">Guarda</a>
                             </div>
                             <div class="row">
+                                <!--Modifica foto-->
                                 <div class="col">
-
                                     <a href="@Url.Action("Update", new {id = itemPhoto.Id} )" class="btn btn-primary">Modifica</a>
-
-                                    <form aps-controller="Pizza" asp-action="Delete" asp-route-id="@itemPhoto.Id" method="post">
+                                </div>
+                                <!--Elimina foto-->
+                                <div>
+                                    <form aps-controller="Photo" asp-action="Delete" asp-route-id="@itemPhoto.Id" method="post">
                                         @Html.AntiForgeryToken()
                                         <button type="submit" class="btn btn-danger btn-sm">
                                             Cancella
                                         </button>
                                     </form>
-
                                 </div>
                             </div>
                         </div>

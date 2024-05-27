@@ -12,10 +12,15 @@ namespace net_il_mio_fotoalbum.Models
         [Column("category_name")]
         public string Name { get; set; }
 
-        public List<Photo> Photos { get; set; }
+        public List<Photo>? Photos { get; set; }
 
         //costruttore - vuoto
         public Category() { }
+
+        public Category(string name)
+        {
+            Name = name;
+        }
 
     }
 }
