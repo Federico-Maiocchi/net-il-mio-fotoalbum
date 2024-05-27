@@ -23,13 +23,21 @@ namespace net_il_mio_fotoalbum.Models
 
         public string ImgSrc => ImageFile != null ? $"data:image/png;base64,{Convert.ToBase64String(ImageFile)}" : "";
 
-        public bool IsVisible { get; set; }
+        public bool IsVisible { get; set; } = true;
 
         //relazione N : N con CATEGORY
         public List<Category>? Categories { get; set; }
 
         //costruttore - vuoto
         public Photo() { }  
+
+        public Photo(string title, string description, bool visible ) 
+        {
+            Title = title;  
+            Description = description;
+            IsVisible = visible;
+            
+        }
 
 
     }
