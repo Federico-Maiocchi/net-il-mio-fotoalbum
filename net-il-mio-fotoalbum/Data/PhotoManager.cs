@@ -54,12 +54,38 @@ namespace net_il_mio_fotoalbum.Data
         }
 
         //modificare una immagine 
-        //public static bool UpdatePhoto(int id, string title, string description, string image, bool visibility, List<string> categories)
-        //{
-        //    using PhotoContext db = new PhotoContext();
+        //public static bool UpdatePhoto(int id, string title, string description, string? image, bool visibility, List<string> categories)
+        public static bool UpdatePhoto(int id, string title, string description, bool visibility, List<string> categories)
+        {
+            using PhotoContext db = new PhotoContext();
 
-        //    var photo = db.Photos.Where(photo => photo.Id == id).Include(photo => photo.Categories).FirstO
-        //}
+            var photo = db.Photos.Where(photo => photo.Id == id).Include(photo => photo.Categories).FirstOrDefault();
+
+            if (photo == null)
+            {
+                return false;
+            }
+
+            photo.Title = title;
+            photo.Description = description;
+            //photo.ImgSrc = image;
+            photo.IsVisible = visibility;
+
+            photo.Categories.Clear();
+            if (categories != null)
+            {
+                foreach (var category in categories)
+                {
+                    int categoryId = int.Parse(category);
+                    var categoryFromDb = db.Categories.FirstOrDefault(category => category.Id == categoryId);
+                    photo.Categories.Add(categoryFromDb);
+                }
+            }
+
+            db.SaveChanges();
+
+            return true;
+        }
 
 
         //CATEGORIE

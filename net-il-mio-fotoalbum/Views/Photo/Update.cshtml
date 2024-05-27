@@ -1,5 +1,71 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model PhotoFormModel
+
 @{
+    ViewData["Title"] = "Modifica foto";
+    Layout = "_CustomLayout";
 }
+
+<section class="create-photo">
+    <div class="container">
+
+        <a href="@Url.Action("IndexPhoto", "Photo", Model )" class="btn btn-primary">Torna all'album</a>
+
+        <div class="row">
+            <div class="col-6">
+                <h2 class="py-4">Aggiungi nuova foto</h2>
+
+                <!--Photo Edit-->
+
+                <form asp-controller="Photo" asp-action="Update" asp-router-id="@Model.Photo.Id" method="post">
+                    @Html.AntiForgeryToken()
+
+                    <!--img-->
+                    <div class="form-group">
+                        <label for="Pizza.Image">Inserisci immagine</label>
+                        <input asp-for="Photo.ImgSrc" class="form-control" type="file" id="formFile">
+                    </div>
+
+                    <!--titolo-->
+                    <div class="form-group col-6">
+                        <label for="name">Titolo</label>
+                        <input asp-for="Photo.Title" type="text" class="form-control" id="name" placeholder="Inserisci il titolo della foto">
+
+                    </div>
+
+                    <!--descrizione-->
+                    <div class="form-group col-6">
+                        <label for="price">Descrizione</label>
+                        <textarea asp-for="Photo.Description" type="text" class="form-control" id="price" placeholder="Inserisci descrizione della foto"> </textarea>
+
+                    </div>
+
+                    <!--visibilità-->
+                    <!--
+                    <div class="form-group col-6">
+                        <label for="price">Prezzo</label>
+                        <input asp-for="Photo.IsVisible" type="text" class="form-control" id="isVisible" placeholder="Inserisci prezzo della pizza">
+
+                    </div>
+                    -->
+                    <!--Categorie foto-->
+
+                    <div class="mb-3">
+                        <strong>Categorie:</strong>
+
+                        @for (int i = 0; i < Model.Categories.Count; i++)
+                        {
+                            <div>
+                                <input type="checkbox" name="SelectedCategories" value="@Model.Categories[i].Value"
+                                @(Model.SelectedCategories.Contains(Model.Categories[i].Value) ? "checked" : "") />
+                                @Model.Categories[i].Text
+                            </div>
+                        }
+                    </div>
+
+
+                    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

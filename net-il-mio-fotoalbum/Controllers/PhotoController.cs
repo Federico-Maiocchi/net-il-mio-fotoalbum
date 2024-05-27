@@ -95,7 +95,14 @@ namespace net_il_mio_fotoalbum.Controllers
                 return View("Update", data);
             }
 
-            if (PhotoManager)
+            if (PhotoManager.UpdatePhoto(id, data.Photo.Title, data.Photo.Description, data.Photo.IsVisible, data.SelectedCategories))
+            {
+                return RedirectToAction("IndexPhoto");
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
     }
