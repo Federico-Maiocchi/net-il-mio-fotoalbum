@@ -56,6 +56,8 @@ namespace net_il_mio_fotoalbum.Controllers
                 return View("Create", data);
             }
 
+            data.SetImageFileFromFormFile();
+
             PhotoManager.AddNewPhoto(data.Photo, data.SelectedCategories);
             return RedirectToAction("IndexPhoto");
         }
@@ -95,7 +97,9 @@ namespace net_il_mio_fotoalbum.Controllers
                 return View("Update", data);
             }
 
-            if (PhotoManager.UpdatePhoto(id, data.Photo.Title, data.Photo.Description, data.Photo.IsVisible, data.SelectedCategories))
+            var imageFile = data.SetImageFileFromFormFile();
+
+            if (PhotoManager.UpdatePhoto(id, data.Photo.Title, data.Photo.Description, data.Photo.IsVisible, data.SelectedCategories, imageFile))
             {
                 return RedirectToAction("IndexPhoto");
             }

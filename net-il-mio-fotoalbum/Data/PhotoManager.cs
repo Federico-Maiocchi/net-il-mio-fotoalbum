@@ -49,14 +49,14 @@ namespace net_il_mio_fotoalbum.Data
                     photo.Categories.Add(category);
                 }
             }
-
+           
             db.Photos.Add(photo);
             db.SaveChanges();
         }
 
         //modificare una immagine 
         //public static bool UpdatePhoto(int id, string title, string description, string? image, bool visibility, List<string> categories)
-        public static bool UpdatePhoto(int id, string title, string description, bool visibility, List<string> categories)
+        public static bool UpdatePhoto(int id, string title, string description, bool visibility, List<string> categories, byte[]? imageFile)
         {
             using PhotoContext db = new PhotoContext();
 
@@ -71,6 +71,11 @@ namespace net_il_mio_fotoalbum.Data
             photo.Description = description;
             //photo.ImgSrc = image;
             photo.IsVisible = visibility;
+
+            if (imageFile != null)
+            {
+                photo.ImageFile = imageFile;
+            }
 
             photo.Categories.Clear();
             if (categories != null)

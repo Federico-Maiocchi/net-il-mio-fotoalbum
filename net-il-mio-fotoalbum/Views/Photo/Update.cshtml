@@ -16,14 +16,20 @@
 
                 <!--Photo Edit-->
 
-                <form asp-controller="Photo" asp-action="Update" asp-router-id="@Model.Photo.Id" method="post">
+                <form asp-controller="Photo" asp-action="Update" asp-router-id="@Model.Photo.Id" method="post" enctype="multipart/form-data">
                     @Html.AntiForgeryToken()
 
                     <!--img-->
                     <div class="form-group">
+                        <img src="@Model.Photo.ImgSrc" />
+                        <label for="ImageFormFile">Inserisci immagine</label>
+                        <input asp-for="ImageFormFile" class="form-control" type="file" id="formFile">
+                    </div>
+
+                    @* <div class="form-group">
                         <label for="Pizza.Image">Inserisci immagine</label>
                         <input asp-for="Photo.ImgSrc" class="form-control" type="file" id="formFile">
-                    </div>
+                    </div> *@
 
                     <!--titolo-->
                     <div class="form-group col-6">

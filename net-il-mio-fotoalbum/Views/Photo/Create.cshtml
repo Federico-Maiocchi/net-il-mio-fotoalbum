@@ -16,13 +16,14 @@
 
                 <!--Photo Create-->
                 
-                <form asp-controller="Photo" asp-action="Create" method="post">
+                <form asp-controller="Photo" asp-action="Create" method="post" enctype="multipart/form-data">
                     @Html.AntiForgeryToken()
 
                     <!--img-->
                     <div class="form-group">
-                        <label for="Pizza.Image">Inserisci immagine</label>
-                        <input asp-for="Photo.ImgSrc" class="form-control" type="file" id="formFile">
+                        <img src="@Model.Photo.ImgSrc" />
+                        <label for="ImageFormFile">Inserisci immagine</label>
+                        <input asp-for="ImageFormFile" class="form-control" type="file" id="formFile">
                     </div>
 
                     <!--titolo-->

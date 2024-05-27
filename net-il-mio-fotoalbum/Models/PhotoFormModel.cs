@@ -14,6 +14,9 @@ namespace net_il_mio_fotoalbum.Models
 
         //elenco degli ID che appartiene alle categorie
         public List<string>? SelectedCategories { get; set; }
+        
+        //immagine da caricare
+        public IFormFile? ImageFormFile { get; set; }
 
         //Costruttore
         public PhotoFormModel() { }
@@ -48,6 +51,20 @@ namespace net_il_mio_fotoalbum.Models
                 }
             }
 
+        }
+
+
+        public byte[] SetImageFileFromFormFile()
+        {
+            if(ImageFormFile == null)
+            {
+                return null;
+            }
+            using var stream = new MemoryStream();
+            this.ImageFormFile?.CopyTo(stream);
+            Photo.ImageFile = stream.ToArray();
+
+            return Photo.ImageFile;
         }
     }
 }
