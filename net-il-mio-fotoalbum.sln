@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "net-il-mio-fotoalbum", "net-il-mio-fotoalbum\net-il-mio-fotoalbum.csproj", "{9AD64E80-0FE6-41B0-A4FE-18220DC7A350}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9AD64E80-0FE6-41B0-A4FE-18220DC7A350}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AD64E80-0FE6-41B0-A4FE-18220DC7A350}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AD64E80-0FE6-41B0-A4FE-18220DC7A350}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AD64E80-0FE6-41B0-A4FE-18220DC7A350}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C25DAB09-6BA5-4B91-A110-CC9E5F3EAB42}
+	EndGlobalSection
+EndGlobal
