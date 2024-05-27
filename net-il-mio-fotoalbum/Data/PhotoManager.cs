@@ -4,6 +4,8 @@ namespace net_il_mio_fotoalbum.Data
 {
     public class PhotoManager
     {
+
+        //FOTO
         //prendere tutte le foto 
         public static List<Photo> GetAllPhotos()
         {
@@ -18,6 +20,16 @@ namespace net_il_mio_fotoalbum.Data
             using PhotoContext db = new PhotoContext();
 
             return db.Photos.FirstOrDefault(p => p.Id == id);
+        }
+
+
+        //CATEGORIE
+        //prendere tutte le catergorie
+        public static List<Category> GetAllCategories()
+        {
+            using PhotoContext db = new PhotoContext();
+
+            return db.Categories.ToList();
         }
 
 
