@@ -26,7 +26,17 @@
                 {
                     <div class="col-4 p-2">
                         <div class="card" style="width: 18rem;">
-                            <img src="..." class="card-img-top" alt="...">
+                            @{
+                                if (string.IsNullOrEmpty(itemPhoto.ImgSrc))
+                                {
+                                    <img src="~/img/ImageNotFound.png" class="card-img-top" alt="Image not found" />
+                                }
+                                else
+                                {
+                                    <img src="@Url.Content(itemPhoto.ImgSrc)" class="card-img-top" alt="Immagine di @itemPhoto.Title">
+                                }
+                            }
+                           
                             <div class="card-body">
                                 <h5 class="card-title">
                                     <strong>
@@ -40,7 +50,7 @@
                                     </strong>
                                     @itemPhoto.Description
                                 </p>
-                                <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                                <a href="@Url.Action("Show", new {id = itemPhoto.Id})" class="btn btn-primary">Guarda</a>
                             </div>
                         </div>
                     </div>  

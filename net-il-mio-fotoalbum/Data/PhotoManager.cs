@@ -12,6 +12,14 @@ namespace net_il_mio_fotoalbum.Data
             return db.Photos.ToList();
         }
 
+        //prendere una foto dal suo ID
+        public static Photo GetPhotoById(int id)
+        {
+            using PhotoContext db = new PhotoContext();
+
+            return db.Photos.FirstOrDefault(p => p.Id == id);
+        }
+
 
         //Seeder
         public static void Seed()
