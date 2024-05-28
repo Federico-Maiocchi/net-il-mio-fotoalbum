@@ -47,9 +47,10 @@
 
                     <!--visibilità-->
                     
-                    <div class="form-group col-6">
-                        <label for="visibility">Prezzo</label>
-                        <input asp-for="Photo.IsVisible" type="checkbox" class="form-control" id="isVisible" placeholder="Inserisci prezzo della pizza">
+                    <div class="form-group col">
+                        <label for="isVisible">Visibilità immagine</label>
+                        <!--<input asp-for="Photo.IsVisible" type="checkbox" class="form-control" id="isVisible" >-->
+                        <input asp-for="Photo.IsVisible" type="checkbox" class="form-check-input" id="Photo_IsVisible" />
 
                     </div>
                     

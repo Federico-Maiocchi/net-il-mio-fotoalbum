@@ -5,7 +5,6 @@
 }
 
 <section class="photos-list text-center">
-
     <!-- intestazione pagina -->
     <h1>Benvenuto nel tuo album</h1>
     <h3>Lista foto</h3>
@@ -14,19 +13,18 @@
         <button class="btn btn-primary">Aggiungi foto</button>
     </a>
 
-
-    
     <div class="container">
+        <!-- Sezione immagini visibili -->
+        <h3>Immagini visibili</h3>
         <div class="row justify-content-center align-items-center">
-            
-            @if (Model == null || !Model.Any())
+            @if (Model == null || !Model.Any(photo => photo.IsVisible))
             {
-                <p>Non si sono foto in questo album</p>
+                <p>Non ci sono immagini visibili in questo album</p>
             }
             else
             {
-                <!-- Card immagini -->
-                @foreach (Photo itemPhoto in Model)
+                <!-- Card immagini visibili -->
+                @foreach (var itemPhoto in Model.Where(photo => photo.IsVisible))
                 {
                     <div class="col-4 p-2">
                         <div class="card" style="width: 18rem;">
@@ -37,47 +35,86 @@
                                 }
                                 else
                                 {
-                                    <img src="@Url.Content(itemPhoto.ImgSrc)" class="card-img-top" alt="Immagine di @itemPhoto.Title">
+                                    <img src="@itemPhoto.ImgSrc" class="card-img-top" alt="Immagine di @itemPhoto.Title">
                                 }
                             }
-                           
                             <div class="card-body">
                                 <h5 class="card-title">
-                                    <strong>
-                                        Titolo:
-                                    </strong>
-                                    @itemPhoto.Title
+                                    <strong>Titolo:</strong> @itemPhoto.Title
                                 </h5>
                                 <p class="card-text">
-                                    <strong>
-                                        Descrizione:
-                                    </strong>
-                                    @itemPhoto.Description
+                                    <strong>Descrizione:</strong> @itemPhoto.Description
                                 </p>
-                                <a href="@Url.Action("Show", new {id = itemPhoto.Id})" class="btn btn-primary">Guarda</a>
+                                <a href="@Url.Action("Show", new { id = itemPhoto.Id })" class="btn btn-primary">Guarda</a>
                             </div>
                             <div class="row">
-                                <!--Modifica foto-->
+                                <!-- Modifica foto -->
                                 <div class="col">
-                                    <a href="@Url.Action("Update", new {id = itemPhoto.Id} )" class="btn btn-primary">Modifica</a>
+                                    <a href="@Url.Action("Update", new { id = itemPhoto.Id })" class="btn btn-primary">Modifica</a>
                                 </div>
-                                <!--Elimina foto-->
+                                <!-- Elimina foto -->
                                 <div>
-                                    <form aps-controller="Photo" asp-action="Delete" asp-route-id="@itemPhoto.Id" method="post">
+                                    <form asp-controller="Photo" asp-action="Delete" asp-route-id="@itemPhoto.Id" method="post">
                                         @Html.AntiForgeryToken()
-                                        <button type="submit" class="btn btn-danger btn-sm">
-                                            Cancella
-                                        </button>
+                                        <button type="submit" class="btn btn-danger btn-sm">Cancella</button>
                                     </form>
                                 </div>
                             </div>
                         </div>
-                    </div>  
+                    </div>
                 }
             }
+        </div>
 
+        <!-- Sezione immagini invisibili -->
+        <h3>Immagini nascoste</h3>
+        <div class="row justify-content-center align-items-center">
+            @if (Model == null || !Model.Any(photo => !photo.IsVisible))
+            {
+                <p>Non ci sono immagini nascoste in questo album</p>
+            }
+            else
+            {
+                <!-- Tabella immagini invisibili -->
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Immagine</th>
+                            <th scope="col">Titolo</th>
+                            <th scope="col">Descrizione</th>
+                            <th scope="col">Azioni</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var itemPhoto in Model.Where(photo => !photo.IsVisible))
+                        {
+                            <tr>
+                                <td>
+                                    @{
+                                        if (string.IsNullOrEmpty(itemPhoto.ImgSrc))
+                                        {
+                                            <img src="~/img/ImageNotFound.png" style="width: 100px;" alt="Image not found" />
+                                        }
+                                        else
+                                        {
+                                            <img src="@itemPhoto.ImgSrc" style="width: 100px;" alt="Immagine di @itemPhoto.Title">
+                                        }
+                                    }
+                                </td>
+                                <td>@itemPhoto.Title</td>
+                                <td>@itemPhoto.Description</td>
+                                <td>
+                                    <a href="@Url.Action("Update", new { id = itemPhoto.Id })" class="btn btn-primary btn-sm">Modifica</a>
+                                    <form asp-controller="Photo" asp-action="Delete" asp-route-id="@itemPhoto.Id" method="post" style="display:inline;">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-danger btn-sm">Cancella</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
         </div>
     </div>
 </section>
-
-

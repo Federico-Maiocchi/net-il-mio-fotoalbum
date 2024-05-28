@@ -101,6 +101,8 @@ namespace net_il_mio_fotoalbum.Controllers
 
             var imageFile = data.SetImageFileFromFormFile();
 
+           
+
             if (PhotoManager.UpdatePhoto(id, data.Photo.Title, data.Photo.Description, data.Photo.IsVisible, data.SelectedCategories, imageFile))
             {
                 return RedirectToAction("IndexPhoto");
