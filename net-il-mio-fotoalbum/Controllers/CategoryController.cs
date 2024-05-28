@@ -34,7 +34,7 @@ namespace net_il_mio_fotoalbum.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public IActionResult CreateCategory(Category category) //CONTROLLARE
+        public IActionResult CreateCategory(Category category) 
         {
             if (!ModelState.IsValid)
             {
@@ -42,11 +42,12 @@ namespace net_il_mio_fotoalbum.Controllers
             }
 
             PhotoManager.AddNewCategory(category);
-            return View("IndexCategory");
+            return RedirectToAction("IndexCategory");
         }
 
 
-        // Update (GET)
+        // Update
+        // get
         [HttpGet]
         public IActionResult UpdateCategory(int id)
         {
@@ -58,7 +59,8 @@ namespace net_il_mio_fotoalbum.Controllers
             return View(category);
         }
 
-        // Update (POST)
+        // Update
+        // post
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult UpdateCategory(Category category)
@@ -74,9 +76,10 @@ namespace net_il_mio_fotoalbum.Controllers
 
 
         //Delete
+        //post
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id)                        //CONTROLLARE
+        public IActionResult Delete(int id)                        
         {
             var categoryToDelete = PhotoManager.DeleteCategory(id);
 

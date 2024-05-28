@@ -58,6 +58,8 @@ namespace net_il_mio_fotoalbum.Controllers
 
             data.SetImageFileFromFormFile();
 
+            
+
             PhotoManager.AddNewPhoto(data.Photo, data.SelectedCategories);
             return RedirectToAction("IndexPhoto");
         }
