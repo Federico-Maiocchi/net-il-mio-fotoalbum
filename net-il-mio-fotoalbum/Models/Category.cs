@@ -10,6 +10,8 @@ namespace net_il_mio_fotoalbum.Models
         public int Id { get; set; }
 
         [Column("category_name")]
+        [Required(ErrorMessage = "Il campo è obbligatorio")]
+        [StringLength(50, ErrorMessage = "Il nome non può avere più di 50 caratteri")]
         public string Name { get; set; }
 
         public List<Photo>? Photos { get; set; }

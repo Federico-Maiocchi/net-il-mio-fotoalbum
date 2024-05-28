@@ -24,20 +24,21 @@
                         <img src="@Model.Photo.ImgSrc" />
                         <label for="ImageFormFile">Inserisci immagine</label>
                         <input asp-for="ImageFormFile" class="form-control" type="file" id="formFile">
+
                     </div>
 
                     <!--titolo-->
                     <div class="form-group col-6">
                         <label for="name">Titolo</label>
                         <input asp-for="Photo.Title" type="text" class="form-control" id="name" placeholder="Inserisci nome della foto">
-                        
+                        <span asp-validation-for="Photo.Title" class="text-danger"></span>
                     </div>
 
                     <!--descrizione-->
                     <div class="form-group col-6">
                         <label for="price">Descrizione</label>
                         <textarea asp-for="Photo.Description" type="text" class="form-control" id="price" placeholder="Inserisci descrizione della foto"> </textarea>
-                        
+                        <span asp-validation-for="Photo.Description" class="text-danger"></span>
                     </div>
 
                     <!--visibilità-->

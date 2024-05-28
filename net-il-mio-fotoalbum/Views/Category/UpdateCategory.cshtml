@@ -22,6 +22,7 @@
                     <div class="form-group col-6">
                         <label for="name">Nome</label>
                         <input asp-for="Name" type="text" class="form-control" id="name" placeholder="Modifica nome della categoria">
+                        <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
 
                     <button type="submit" class="btn btn-primary mt-3">Submit</button>

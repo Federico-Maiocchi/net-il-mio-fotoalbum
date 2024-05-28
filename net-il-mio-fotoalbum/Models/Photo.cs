@@ -14,9 +14,13 @@ namespace net_il_mio_fotoalbum.Models
         public int Id { get; set; }
 
         [Column("photo_title")]
+        [Required(ErrorMessage = "Il campo è obbligatorio")]
+        [StringLength(100, ErrorMessage = "Il nome non può avere più di 100 caratteri")]
         public string Title { get; set; }
 
         [Column("photo_description")]
+        [Required(ErrorMessage = "Il campo è obbligatorio")]
+        [StringLength(500, ErrorMessage = "Il nome non può avere più di 300 caratteri")]
         public string Description { get; set; }
 
         public byte[]? ImageFile { get; set; }
