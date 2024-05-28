@@ -35,6 +35,34 @@ namespace net_il_mio_fotoalbum.Data
            
         }
 
+        //cambiare lo stato di visibilità delle foto
+        public static bool TogglePhotoVisibility(int id)
+        {
+            try
+            {
+                using PhotoContext db = new PhotoContext();
+
+                var photo = db.Photos.FirstOrDefault(photo => photo.Id == id);
+
+                if (photo == null)
+                {
+                    return false;
+                }
+
+                // Inverti lo stato di visibilità
+                photo.IsVisible = !photo.IsVisible;
+
+                db.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // Gestione degli errori
+                return false;
+            }
+        }
+
         //prendere le foto in base al nome
         public static List<Photo> GetPhotoByName(string name)
         {

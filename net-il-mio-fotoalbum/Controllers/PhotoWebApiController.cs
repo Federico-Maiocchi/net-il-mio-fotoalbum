@@ -27,6 +27,29 @@ namespace net_il_mio_fotoalbum.Controllers
             return Ok(photos);
         }
 
-        
+
+        //cambiare la visibilità della foto in indexPhoto
+        [HttpPost]
+        public IActionResult ToggleVisibility(int id)
+        {
+            try
+            {
+                // Chiamata al PhotoManager per cambiare lo stato di visibilità dell'immagine
+                var success = PhotoManager.TogglePhotoVisibility(id);
+
+                if (success)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return NotFound(); // Immagine non trovata
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}"); // Gestione degli errori
+            }
+        }
     }
 }

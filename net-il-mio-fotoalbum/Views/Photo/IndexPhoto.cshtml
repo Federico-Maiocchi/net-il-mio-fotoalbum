@@ -23,107 +23,94 @@
     </div>
 
     <div class="container">
-        <!-- Sezione immagini visibili -->
-        <h3>Immagini visibili</h3>
-        <div class="row justify-content-center align-items-center">
-            @if (Model == null || !Model.Any(photo => photo.IsVisible))
-            {
-                <p>Non ci sono immagini visibili in questo album</p>
-            }
-            else
-            {
-                <!-- Card immagini visibili -->
-                @foreach (var itemPhoto in Model.Where(photo => photo.IsVisible))
+        <!-- Tabella di immagini visibili e invisibili -->
+        <h3>Tutte le Immagini</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Immagine</th>
+                    <th scope="col">Titolo</th>
+                    <th scope="col">Descrizione</th>
+                    <th scope="col">Visibilità</th>
+                    <th scope="col">Azioni</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var itemPhoto in Model)
                 {
-                    <div class="col-4 p-2">
-                        <div class="card" style="width: 18rem;">
+                    <tr>
+                        <td>
                             @{
                                 if (string.IsNullOrEmpty(itemPhoto.ImgSrc))
                                 {
-                                    <img src="~/img/ImageNotFound.png" class="card-img-top" alt="Image not found" />
+                                        <img src="~/img/ImageNotFound.png" style="width: 100px;" alt="Image not found" />
                                 }
                                 else
                                 {
-                                    <img src="@itemPhoto.ImgSrc" class="card-img-top" alt="Immagine di @itemPhoto.Title">
+                                        <img src="@itemPhoto.ImgSrc" style="width: 100px;@(itemPhoto.IsVisible ? "" : "opacity:0.5;")" alt="Immagine di @itemPhoto.Title">
                                 }
                             }
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    <strong>Titolo:</strong> @itemPhoto.Title
-                                </h5>
-                                <p class="card-text">
-                                    <strong>Descrizione:</strong> @itemPhoto.Description
-                                </p>
-                                <a href="@Url.Action("Show", new { id = itemPhoto.Id })" class="btn btn-primary">Guarda</a>
-                            </div>
-                            <div class="row">
-                                <!-- Modifica foto -->
-                                <div class="col">
-                                    <a href="@Url.Action("Update", new { id = itemPhoto.Id })" class="btn btn-primary">Modifica</a>
-                                </div>
-                                <!-- Elimina foto -->
-                                <div>
-                                    <form asp-controller="Photo" asp-action="Delete" asp-route-id="@itemPhoto.Id" method="post">
-                                        @Html.AntiForgeryToken()
-                                        <button type="submit" class="btn btn-danger btn-sm">Cancella</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        </td>
+                        <td>@itemPhoto.Title</td>
+                        <td>@itemPhoto.Description</td>
+                        <td>
+                            @if (itemPhoto.IsVisible)
+                            {
+                                <button type="button" class="btn btn-success btn-sm" onclick="toggleVisibility(@itemPhoto.Id)">Visibile</button>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-danger btn-sm" onclick="toggleVisibility(@itemPhoto.Id)">Invisibile</button>
+                            }
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Update", new { id = itemPhoto.Id })" class="btn btn-primary btn-sm">Modifica</a>
+                            <form asp-controller="Photo" asp-action="Delete" asp-route-id="@itemPhoto.Id" method="post" style="display:inline;">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-danger btn-sm">Cancella</button>
+                            </form>
+                        </td>
+                    </tr>
                 }
-            }
-        </div>
-
-        <!-- Sezione immagini invisibili -->
-        <h3>Immagini nascoste</h3>
-        <div class="row justify-content-center align-items-center">
-            @if (Model == null || !Model.Any(photo => !photo.IsVisible))
-            {
-                <p>Non ci sono immagini nascoste in questo album</p>
-            }
-            else
-            {
-                <!-- Tabella immagini invisibili -->
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">Immagine</th>
-                            <th scope="col">Titolo</th>
-                            <th scope="col">Descrizione</th>
-                            <th scope="col">Azioni</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var itemPhoto in Model.Where(photo => !photo.IsVisible))
-                        {
-                            <tr>
-                                <td>
-                                    @{
-                                        if (string.IsNullOrEmpty(itemPhoto.ImgSrc))
-                                        {
-                                            <img src="~/img/ImageNotFound.png" style="width: 100px;" alt="Image not found" />
-                                        }
-                                        else
-                                        {
-                                            <img src="@itemPhoto.ImgSrc" style="width: 100px;" alt="Immagine di @itemPhoto.Title">
-                                        }
-                                    }
-                                </td>
-                                <td>@itemPhoto.Title</td>
-                                <td>@itemPhoto.Description</td>
-                                <td>
-                                    <a href="@Url.Action("Update", new { id = itemPhoto.Id })" class="btn btn-primary btn-sm">Modifica</a>
-                                    <form asp-controller="Photo" asp-action="Delete" asp-route-id="@itemPhoto.Id" method="post" style="display:inline;">
-                                        @Html.AntiForgeryToken()
-                                        <button type="submit" class="btn btn-danger btn-sm">Cancella</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            }
-        </div>
+            </tbody>
+        </table>
     </div>
 </section>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script>
+
+    console.log(`Tentativo di trovare l'elemento con id visibilityButton_${photoId}`);
+
+    const visibilityButton = document.getElementById(`visibilityButton_${photoId}`);
+    if (visibilityButton) {
+        // L'elemento è stato trovato, esegui le operazioni necessarie
+        console.log('Elemento trovato:', visibilityButton);
+        // Continua con le operazioni su visibilityButton...
+    } else {
+        // L'elemento non è stato trovato, gestisci il caso di errore
+        console.error(`L'elemento con id visibilityButton_${photoId} non è stato trovato.`);
+        // Aggiungi qui il codice per gestire l'errore, ad esempio mostrando un messaggio di avviso all'utente
+    }
+    
+    function toggleVisibility(photoId) {
+        axios.post(`/api/PhotoWebApi/ToggleVisibility?id=${photoId}`)
+            .then(response => {
+                console.log('Chiamata POST riuscita:', response.data);
+
+                // Aggiorna il bottone di visibilità
+                const visibilityButton = document.getElementById(`visibilityButton_${photoId}`);
+                const isVisible = response.data.isVisible;
+
+                // Cambia il testo e lo stile del bottone in base alla nuova visibilità
+                visibilityButton.textContent = isVisible ? "Visibile" : "Invisibile";
+                visibilityButton.classList.toggle('btn-success', isVisible);
+                visibilityButton.classList.toggle('btn-danger', !isVisible);
+            })
+            .catch(error => {
+                console.error('Errore durante la chiamata POST:', error);
+                // Gestisci gli errori, se necessario
+            });
+    }
+</script>
