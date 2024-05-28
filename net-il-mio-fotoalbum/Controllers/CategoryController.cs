@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using net_il_mio_fotoalbum.Data;
 using net_il_mio_fotoalbum.Models;
 
@@ -7,6 +8,7 @@ namespace net_il_mio_fotoalbum.Controllers
     public class CategoryController : Controller
     {
         //Index
+        [Authorize(Roles = "ADMIN")]
         public IActionResult IndexCategory()
         {
             //PhotoManager.SeedCategories();
@@ -19,6 +21,7 @@ namespace net_il_mio_fotoalbum.Controllers
 
         //Create
         //get
+        [Authorize(Roles = "ADMIN")]
         [HttpGet]
         public IActionResult CreateCategory()
         {
@@ -31,6 +34,7 @@ namespace net_il_mio_fotoalbum.Controllers
 
         //Create
         //post
+        [Authorize(Roles = "ADMIN")]
         [HttpPost]
         [ValidateAntiForgeryToken]
 
@@ -48,6 +52,7 @@ namespace net_il_mio_fotoalbum.Controllers
 
         // Update
         // get
+        [Authorize(Roles = "ADMIN")]
         [HttpGet]
         public IActionResult UpdateCategory(int id)
         {
@@ -61,6 +66,7 @@ namespace net_il_mio_fotoalbum.Controllers
 
         // Update
         // post
+        [Authorize(Roles = "ADMIN")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult UpdateCategory(Category category)
@@ -77,6 +83,7 @@ namespace net_il_mio_fotoalbum.Controllers
 
         //Delete
         //post
+        [Authorize(Roles = "ADMIN")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)                        

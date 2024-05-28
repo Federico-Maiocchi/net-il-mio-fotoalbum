@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using net_il_mio_fotoalbum.Data;
 using net_il_mio_fotoalbum.Models;
 
 namespace net_il_mio_fotoalbum.Controllers
 {
+    [Authorize]
     public class PhotoController : Controller
     {
+        [Authorize(Roles = "ADMIN")]
         //Index
         public IActionResult IndexPhoto(string filterName)
         {
@@ -24,6 +27,7 @@ namespace net_il_mio_fotoalbum.Controllers
             //return View(PhotoManager.GetAllPhotos());
         }
 
+        [Authorize(Roles = "ADMIN")]
         //Show
         public IActionResult Show(int id)
         {
@@ -40,6 +44,7 @@ namespace net_il_mio_fotoalbum.Controllers
 
         //Create
         //get
+        [Authorize(Roles = "ADMIN")]
         [HttpGet]
         public IActionResult Create() 
         {
@@ -54,6 +59,7 @@ namespace net_il_mio_fotoalbum.Controllers
 
         //Create
         //post
+        [Authorize(Roles = "ADMIN")]
         [HttpPost]
         [ValidateAntiForgeryToken]
 
@@ -77,6 +83,7 @@ namespace net_il_mio_fotoalbum.Controllers
 
         //Update
         //get
+        [Authorize(Roles = "ADMIN")]
         [HttpGet]
         public IActionResult Update(int id)
         {
@@ -99,6 +106,7 @@ namespace net_il_mio_fotoalbum.Controllers
 
         //Update
         //post
+        [Authorize(Roles = "ADMIN")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Update(int id, PhotoFormModel data)
@@ -125,6 +133,7 @@ namespace net_il_mio_fotoalbum.Controllers
         }
 
         //Delete
+        [Authorize(Roles = "ADMIN")]
         [HttpPost]
         [ValidateAntiForgeryToken]
 
