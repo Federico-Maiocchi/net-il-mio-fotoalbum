@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using net_il_mio_fotoalbum.Data;
+using net_il_mio_fotoalbum.Models;
 
 namespace net_il_mio_fotoalbum.Controllers
 {
@@ -10,9 +11,22 @@ namespace net_il_mio_fotoalbum.Controllers
     {
         [HttpGet]
 
-        public IActionResult GetAllPhotos()
+        public IActionResult GetAllPhotos(string? filterName )
         {
-            return Ok(PhotoManager.GetAllPhotos());
+            List<Photo> photos;
+
+            if (!string.IsNullOrEmpty(filterName))
+            {
+                photos = PhotoManager.GetPhotoByName(filterName);
+            }
+            else
+            {
+                photos = PhotoManager.GetAllPhotos();
+            }
+
+            return Ok(photos);
         }
+
+        
     }
 }
