@@ -11,6 +11,8 @@ namespace net_il_mio_fotoalbum.Data
         //prendere tutte le foto 
         public static List<Photo> GetAllPhotos()
         {
+
+
             using PhotoContext db = new PhotoContext();
 
             return db.Photos.ToList();
@@ -32,6 +34,19 @@ namespace net_il_mio_fotoalbum.Data
 
            
         }
+
+        //prendere le foto in base al nome
+        public static List<Photo> GetPhotoByName(string name)
+        {
+            using PhotoContext db = new PhotoContext();
+
+
+            //return db.Pizze.Where(p => p.Name == name).ToList();
+
+            return db.Photos.Where(photo => photo.Title.ToLower().Contains(name.ToLower())).ToList();
+        }
+
+
 
         //aggiungere una nuova foto
         public static void AddNewPhoto(Photo photo, List<string> SelectedCategories = null) 
@@ -55,7 +70,7 @@ namespace net_il_mio_fotoalbum.Data
         }
 
         //modificare una immagine 
-        //public static bool UpdatePhoto(int id, string title, string description, string? image, bool visibility, List<string> categories)
+        
         public static bool UpdatePhoto(int id, string title, string description, bool visibility, List<string> categories, byte[]? imageFile)
         {
             using PhotoContext db = new PhotoContext();

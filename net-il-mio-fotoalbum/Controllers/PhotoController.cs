@@ -7,10 +7,21 @@ namespace net_il_mio_fotoalbum.Controllers
     public class PhotoController : Controller
     {
         //Index
-        public IActionResult IndexPhoto()
+        public IActionResult IndexPhoto(string filterName)
         {
+            List<Photo> photos;
+
+            if (!string.IsNullOrEmpty(filterName))
+            {
+                return View(PhotoManager.GetPhotoByName(filterName));
+            }
+            else
+            {
+                return View(PhotoManager.GetAllPhotos());
+            }
+
             //PhotoManager.Seed();
-            return View(PhotoManager.GetAllPhotos());
+            //return View(PhotoManager.GetAllPhotos());
         }
 
         //Show
