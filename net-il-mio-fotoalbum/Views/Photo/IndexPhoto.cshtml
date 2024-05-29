@@ -40,19 +40,28 @@
                 {
                     <tr>
                         <td>
-                            @{
-                                if (string.IsNullOrEmpty(itemPhoto.ImgSrc))
-                                {
-                                        <img src="~/img/ImageNotFound.png" style="width: 100px;" alt="Image not found" />
-                                }
-                                else
-                                {
-                                        <img src="@itemPhoto.ImgSrc" style="width: 100px;@(itemPhoto.IsVisible ? "" : "opacity:0.5;")" alt="Immagine di @itemPhoto.Title">
-                                }
+                            
+                            @if (string.IsNullOrEmpty(itemPhoto.ImgSrc))
+                            {
+                                    <img src="~/img/ImageNotFound.png" style="width: 100px;" alt="Image not found" />
                             }
+                            else
+                            {
+                                    <img src="@itemPhoto.ImgSrc" style="width: 100px;@(itemPhoto.IsVisible ? "" : "opacity:0.5;")" alt="Immagine di @itemPhoto.Title">
+                            }
+                            
                         </td>
                         <td>@itemPhoto.Title</td>
-                        <td>@itemPhoto.Description</td>
+                        <td>
+                            @if (itemPhoto.Description.Length > 50)
+                            {
+                                <span title="@itemPhoto.Description">@itemPhoto.Description.Substring(0, 50)...</span>
+                            }
+                            else
+                            {
+                                @itemPhoto.Description
+                            }
+                        </td>
                         <td>
                             @if (itemPhoto.IsVisible)
                             {

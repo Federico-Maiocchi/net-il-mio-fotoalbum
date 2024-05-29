@@ -32,6 +32,9 @@ namespace net_il_mio_fotoalbum.Models
         //relazione N : N con CATEGORY
         public List<Category>? Categories { get; set; }
 
+        public long ProfileId { get; set; }
+        public Profile? Profile { get; set; }
+
         //costruttore - vuoto
         public Photo() { }  
 

@@ -13,6 +13,12 @@ namespace net_il_mio_fotoalbum.Data
         //Categorie
         public DbSet<Category> Categories { get; set; }
 
+        //Messaggi
+        public DbSet<Message> Messages { get; set; }
+
+        //Profili
+        public DbSet<Profile> Profiles { get; set; }
+
         public object PhotoContexts { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

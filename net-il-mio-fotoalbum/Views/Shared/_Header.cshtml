@@ -15,7 +15,7 @@
                         <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                     </li>
 
-                    @if (User.IsInRole("ADMIN"))
+                    @* @if (User.IsInRole("ADMIN"))
                     {
                         <li>
                             <a class="nav-link text-dark" asp-area="" asp-controller="Photo" asp-action="IndexPhoto">Album</a>
@@ -32,9 +32,41 @@
                         <li>
                             <a class="nav-link text-dark" asp-area="" asp-controller="Category" asp-action="CreateCategory">Aggiungi categoria</a>
                         </li>
-                    }
+                    } *@
                     
                 </ul>
+                @if (User.IsInRole("ADMIN"))
+                {
+                   <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Album
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item nav-link text-dark" asp-area="" asp-controller="Photo" asp-action="IndexPhoto">Lista foto</a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item nav-link text-dark" asp-area="" asp-controller="Photo" asp-action="Create">Aggiungi foto</a>
+                        </li>  
+                    </ul>
+                </div>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Categorie
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Category" asp-action="IndexCategory">Lista categorie</a>
+                        </li>
+
+                        <li>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Category" asp-action="CreateCategory">Aggiungi categoria</a>
+                        </li>
+                    </ul>
+                </div>
+            
+                }
             </div>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">

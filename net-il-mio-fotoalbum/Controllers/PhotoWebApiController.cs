@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using net_il_mio_fotoalbum.Data;
 using net_il_mio_fotoalbum.Models;
+using System.Reflection.Metadata.Ecma335;
 
 namespace net_il_mio_fotoalbum.Controllers
 {
@@ -49,6 +50,20 @@ namespace net_il_mio_fotoalbum.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}"); // Gestione degli errori
+            }
+        }
+
+        [HttpPost]
+        public IActionResult SendMessage([FromBody] Message message)
+        {
+            try
+            {
+
+                return Ok("Messaggio ricevuto con successo");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
     }
