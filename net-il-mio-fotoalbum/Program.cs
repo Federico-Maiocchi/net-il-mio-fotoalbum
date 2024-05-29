@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using net_il_mio_fotoalbum.Data;
+using net_il_mio_fotoalbum.Models;
 using System.Text.Json.Serialization;
 namespace net_il_mio_fotoalbum
 {
@@ -9,10 +10,11 @@ namespace net_il_mio_fotoalbum
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+                        //var connectionString = builder.Configuration.GetConnectionString("PhotoContextConnection") ?? throw new InvalidOperationException("Connection string 'PhotoContextConnection' not found.");
 
             builder.Services.AddDbContext<PhotoContext>();
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<PhotoContext>();
 
@@ -44,6 +46,9 @@ namespace net_il_mio_fotoalbum
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
             app.MapRazorPages();
+
+            //PhotoManager.SeedCategories();
+            //PhotoManager.Seed();
             app.Run();
         }
     }

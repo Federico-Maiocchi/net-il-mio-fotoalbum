@@ -12,8 +12,8 @@ using net_il_mio_fotoalbum.Data;
 namespace net_il_mio_fotoalbum.Migrations
 {
     [DbContext(typeof(PhotoContext))]
-    [Migration("20240528125702_CreateIdentityTables")]
-    partial class CreateIdentityTables
+    [Migration("20240529125447_InitialCreateFinal")]
+    partial class InitialCreateFinal
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -103,6 +103,10 @@ namespace net_il_mio_fotoalbum.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -154,6 +158,8 @@ namespace net_il_mio_fotoalbum.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -247,12 +253,39 @@ namespace net_il_mio_fotoalbum.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
                         .HasColumnName("category_name");
 
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("net_il_mio_fotoalbum.Models.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long?>("ProfileId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProfileId");
+
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("net_il_mio_fotoalbum.Models.Photo", b =>
@@ -265,7 +298,8 @@ namespace net_il_mio_fotoalbum.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)")
                         .HasColumnName("photo_description");
 
                     b.Property<byte[]>("ImageFile")
@@ -274,17 +308,58 @@ namespace net_il_mio_fotoalbum.Migrations
                     b.Property<bool>("IsVisible")
                         .HasColumnType("bit");
 
+                    b.Property<long>("ProfileId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
                         .HasColumnName("photo_title");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProfileId");
 
                     b.HasIndex("Title")
                         .IsUnique();
 
                     b.ToTable("Photo");
+                });
+
+            modelBuilder.Entity("net_il_mio_fotoalbum.Models.Profile", b =>
+                {
+                    b.Property<long>("ProfileId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ProfileId"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Surname")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ProfileId");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Profiles");
+                });
+
+            modelBuilder.Entity("net_il_mio_fotoalbum.Models.User", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.HasDiscriminator().HasValue("User");
                 });
 
             modelBuilder.Entity("CategoryPhoto", b =>
@@ -350,6 +425,48 @@ namespace net_il_mio_fotoalbum.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("net_il_mio_fotoalbum.Models.Message", b =>
+                {
+                    b.HasOne("net_il_mio_fotoalbum.Models.Profile", null)
+                        .WithMany("Messages")
+                        .HasForeignKey("ProfileId");
+                });
+
+            modelBuilder.Entity("net_il_mio_fotoalbum.Models.Photo", b =>
+                {
+                    b.HasOne("net_il_mio_fotoalbum.Models.Profile", "Profile")
+                        .WithMany("Photos")
+                        .HasForeignKey("ProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Profile");
+                });
+
+            modelBuilder.Entity("net_il_mio_fotoalbum.Models.Profile", b =>
+                {
+                    b.HasOne("net_il_mio_fotoalbum.Models.User", "User")
+                        .WithOne("Profile")
+                        .HasForeignKey("net_il_mio_fotoalbum.Models.Profile", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("net_il_mio_fotoalbum.Models.Profile", b =>
+                {
+                    b.Navigation("Messages");
+
+                    b.Navigation("Photos");
+                });
+
+            modelBuilder.Entity("net_il_mio_fotoalbum.Models.User", b =>
+                {
+                    b.Navigation("Profile")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

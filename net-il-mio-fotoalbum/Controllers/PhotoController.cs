@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using net_il_mio_fotoalbum.Data;
 using net_il_mio_fotoalbum.Models;
+using System.Security.Claims;
 
 namespace net_il_mio_fotoalbum.Controllers
 {
@@ -14,6 +15,8 @@ namespace net_il_mio_fotoalbum.Controllers
         {
             List<Photo> photos;
 
+           // PhotoManager.Seed();
+
             if (!string.IsNullOrEmpty(filterName))
             {
                 return View(PhotoManager.GetPhotoByName(filterName));
@@ -23,7 +26,7 @@ namespace net_il_mio_fotoalbum.Controllers
                 return View(PhotoManager.GetAllPhotos());
             }
 
-            //PhotoManager.Seed();
+           
             //return View(PhotoManager.GetAllPhotos());
         }
 
@@ -65,6 +68,10 @@ namespace net_il_mio_fotoalbum.Controllers
 
         public IActionResult Create(PhotoFormModel data)
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            Profile profile = PhotoManager.GetProfileByUserId(userId);
+            data.Photo.ProfileId = profile.ProfileId;
+
             if (!ModelState.IsValid)
             {
                 

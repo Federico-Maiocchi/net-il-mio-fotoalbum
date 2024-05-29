@@ -7,6 +7,14 @@ namespace net_il_mio_fotoalbum.Data
     public class PhotoManager
     {
 
+        //PROFILE
+        public static Profile GetProfileByUserId(string id)
+        {
+            using PhotoContext db = new PhotoContext();
+            return db.Profiles.FirstOrDefault(profile => profile.UserId == id);
+        }
+
+
         //FOTO
         //prendere tutte le foto 
         public static List<Photo> GetAllPhotos()
@@ -260,7 +268,7 @@ namespace net_il_mio_fotoalbum.Data
             {
                 new Photo{Title = "Il lago", Description = "Foto di un lago", IsVisible = true  },
                 new Photo{Title = "Bosco", Description = "Foto di un lago", IsVisible = true  },
-                new Photo{Title = "Mare ", Description = "Foto di un lago", IsVisible = true  }
+                new Photo{Title = "Mare ", Description = "Foto di un lago", IsVisible = true }
             };
 
             db.Photos.AddRange(photos);
