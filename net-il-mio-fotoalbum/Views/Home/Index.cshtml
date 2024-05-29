@@ -10,7 +10,7 @@
         <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
             Contattaci
         </button>
-        
+
         <div class="row">
             <div class="col">
                 <div class="d-flex justify-content-center align-items-center">
@@ -23,7 +23,7 @@
                 <h3>Non ci sono immagini da visualizzare</h3>
             </div>
             <div class="row js_photo_table d-none">
-                <!-- lista  foto -->
+                <!-- lista foto -->
             </div>
         </div>
     </div>
@@ -31,13 +31,9 @@
     <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Contattaci</h5>
-            
-            
-
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-
             <!--Form contattaci-->
             <form id="contactForm">
                 <div class="form-group">
@@ -50,7 +46,6 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Send</button>
             </form>
-
         </div>
     </div>
 </div>
@@ -62,7 +57,7 @@
         axios.get('/api/PhotoWebApi/GetAllPhotos', {
             params: { filterName: filterName }
         }).then((res) => {
-            if (res.data.length == 0) {
+            if (res.data.length === 0) {
                 document.querySelector('.js_no_photo').classList.remove('d-none');
                 document.querySelector('.js_photo_table').classList.add('d-none');
             } else {
@@ -76,15 +71,15 @@
                         var imgSrc = photo.imgSrc ? photo.imgSrc : '/img/ImageNotFound.png';
                         var altText = photo.imgSrc ? `Immagine di ${photo.title}` : 'Image not found';
                         photoTable.innerHTML += `
-                                <div class="col-4 p-2">
-                                    <div class="card">
-                                        <img src="${imgSrc}" class="card-img-top" alt="${altText}">
-                                        <div class="card-body">
-                                            <h5 class="card-title">${photo.title}</h5>
-                                            <p class="card-text">${photo.description}</p>
+                                    <div class="col-4 p-2">
+                                        <div class="card">
+                                            <img src="${imgSrc}" class="card-img-top" alt="${altText}">
+                                            <div class="card-body">
+                                                <h5 class="card-title">${photo.title}</h5>
+                                                <p class="card-text">${photo.description}</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>`;
+                                    </div>`;
                     }
                 });
 
@@ -103,13 +98,11 @@
         getList(searchInput);
     }
 
-    
     document.addEventListener('DOMContentLoaded', function () {
         getList('');
     });
 
-
-        function handleSubmit(event) {
+    function handleSubmit(event) {
         event.preventDefault(); // Impedisce il comportamento di submit predefinito
 
         // Raccogli i dati del modulo
@@ -118,8 +111,8 @@
 
         // Crea un oggetto con i dati
         const formData = {
-            email: email,
-            message: message
+            Email: email,
+            Text: message // Cambiato da text a message
         };
 
         // Stampa i dati in console per verifica
@@ -141,6 +134,4 @@
 
     // Aggiungi l'event listener al modulo
     document.getElementById('contactForm').addEventListener('submit', handleSubmit);
-
-    
 </script>

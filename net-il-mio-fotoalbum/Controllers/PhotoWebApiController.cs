@@ -58,6 +58,11 @@ namespace net_il_mio_fotoalbum.Controllers
         {
             try
             {
+                using PhotoContext db = new PhotoContext();
+
+                db.Messages.Add(message);
+
+                db.SaveChanges();
 
                 return Ok("Messaggio ricevuto con successo");
             }
